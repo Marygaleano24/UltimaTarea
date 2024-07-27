@@ -5,14 +5,24 @@
   <head>
     <meta charset="utf-8">
     <title>Blog</title>
-    <link rel="stylesheet" href="{% static 'blog/css/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'tasks/css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'tasks/css/style.css' %}">
   </head>
 
   <body>
     <nav>
       <ul>
-        <li><a href="{% url 'blog:index' %}">ブログ一覧</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'tasks:index' %}">Lista de blogs</a></li>
+        <li><form id="logoutForm" method="post" action="{% url 'logout' %}" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" style="background: none; border: none; padding: 0; font: inherit; cursor: pointer; color: white; margin-top: 13px;">Cerrar sesión</button>
+        </form></li>
+        <li><a href="{% url 'user_detail' user.pk %}">Información para los miembros</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+        <li><a href="{% url 'signup' %}">Registrar usuario</a></li>
+        {% endif %}
       </ul>
     </nav>
     <main>
